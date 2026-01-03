@@ -34,7 +34,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group"
-import { _blocks } from "./const"
+import { _blocks, _flats } from "../const"
 
 const formSchema = z.object({
   title: z
@@ -47,11 +47,16 @@ const formSchema = z.object({
     .max(100, "Description must be at most 100 characters."),
 })
 
-export function BugReportForm() {
+export function MaintenanceFeeForm() {
   const [selectedBlock, setSelectedBlock] = React.useState("")
+  const [selectedHaus, setSelectedHaus] = React.useState("")
+  const [picturePreview, setPicturePreview] = React.useState<string | null>(null)
 
   const form = useForm({
     defaultValues: {
+      block: "",
+      haus: "",
+      picture: null as File | null,
       title: "",
       description: "",
     },
@@ -76,15 +81,21 @@ export function BugReportForm() {
     },
   })
 
+  // Cleanup preview URL on unmount
+  React.useEffect(() => {
+    return () => {
+      if (picturePreview) {
+        URL.revokeObjectURL(picturePreview)
+      }
+    }
+  }, [picturePreview])
+
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
         <CardTitle>
-          Hausapp {selectedBlock && `- Block ${selectedBlock}`}
+           {selectedBlock && `Block ${selectedBlock}`}  {selectedHaus && `- Haus ${selectedHaus}`}
         </CardTitle>
-        <CardDescription>
-          Pay monthly maintenance without trouble now
-        </CardDescription>
       </CardHeader>
       <CardContent>
         <form
@@ -96,7 +107,7 @@ export function BugReportForm() {
         >
           <FieldGroup>
             <form.Field
-              name="title"
+              name="block"
               children={(field) => {
                 const isInvalid =
                   field.state.meta.isTouched && !field.state.meta.isValid
@@ -119,6 +130,90 @@ export function BugReportForm() {
                         ))}
                       </SelectContent>
                     </Select>
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                )
+              }}
+            />
+            <form.Field
+              name="haus"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Select Hausnumber</FieldLabel>
+                    <Select
+                      value={field.state.value}
+                      onValueChange={(value) => {
+                        field.handleChange(value)
+                        setSelectedHaus(value)
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Choose hausnumber" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {_flats.map((item) => (
+                          <SelectItem value={item} key={item}>{item}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                )
+              }}
+            />
+            <form.Field
+              name="picture"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Upload Picture</FieldLabel>
+                    <div className="flex gap-4 items-start">
+                      <div className="flex-1">
+                        <Input
+                          id={field.name}
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null
+                            field.handleChange(file)
+
+                            // Clean up previous preview
+                            if (picturePreview) {
+                              URL.revokeObjectURL(picturePreview)
+                            }
+
+                            // Create new preview
+                            if (file) {
+                              const previewUrl = URL.createObjectURL(file)
+                              setPicturePreview(previewUrl)
+                            } else {
+                              setPicturePreview(null)
+                            }
+                          }}
+                        />
+                      </div>
+                      {picturePreview && (
+                        <div className="w-24 h-24 rounded-md overflow-hidden border border-border">
+                          <img
+                            src={picturePreview}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <FieldDescription>
+                      Upload a picture related to your maintenance issue.
+                    </FieldDescription>
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
                     )}
@@ -153,8 +248,7 @@ export function BugReportForm() {
                       </InputGroupAddon>
                     </InputGroup>
                     <FieldDescription>
-                      Include steps to reproduce, expected behavior, and what
-                      actually happened.
+                      Anything to be added for this upload?
                     </FieldDescription>
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
