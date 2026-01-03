@@ -50,7 +50,9 @@ const formSchema = z.object({
 export function MaintenanceFeeForm() {
   const [selectedBlock, setSelectedBlock] = React.useState("")
   const [selectedHaus, setSelectedHaus] = React.useState("")
-  const [picturePreview, setPicturePreview] = React.useState<string | null>(null)
+  const [picturePreview, setPicturePreview] = React.useState<string | null>(
+    null
+  )
 
   const form = useForm({
     defaultValues: {
@@ -92,9 +94,10 @@ export function MaintenanceFeeForm() {
 
   return (
     <Card className="w-full sm:max-w-md">
-      <CardHeader>
+      <CardHeader className="text-center">
         <CardTitle>
-           {selectedBlock && `Block ${selectedBlock}`}  {selectedHaus && `- Haus ${selectedHaus}`}
+          {selectedBlock && `Block ${selectedBlock}`}{" "}
+          {selectedHaus && `- Haus ${selectedHaus}`}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -126,7 +129,9 @@ export function MaintenanceFeeForm() {
                       </SelectTrigger>
                       <SelectContent>
                         {_blocks.map((item) => (
-                          <SelectItem value={item} key={item}>{item}</SelectItem>
+                          <SelectItem value={item} key={item}>
+                            {item}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -144,7 +149,9 @@ export function MaintenanceFeeForm() {
                   field.state.meta.isTouched && !field.state.meta.isValid
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Select Hausnumber</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>
+                      Select Hausnumber
+                    </FieldLabel>
                     <Select
                       value={field.state.value}
                       onValueChange={(value) => {
@@ -157,7 +164,9 @@ export function MaintenanceFeeForm() {
                       </SelectTrigger>
                       <SelectContent>
                         {_flats.map((item) => (
-                          <SelectItem value={item} key={item}>{item}</SelectItem>
+                          <SelectItem value={item} key={item}>
+                            {item}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
