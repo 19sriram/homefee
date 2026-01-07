@@ -34,16 +34,7 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group"
 import { _blocks, _flats } from "../const"
-
-const formSchema = z.object({
-  block: z.string().min(1, "Please select a block."),
-  haus: z.string().min(1, "Please select a hausnumber."),
-  picture: z.instanceof(File).nullable(),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters.")
-    .max(100, "Description must be at most 100 characters."),
-})
+import { formSchema } from "../schemas/schema"
 
 export function MaintenanceFeeForm() {
   const [selectedBlock, setSelectedBlock] = React.useState("")
@@ -63,6 +54,7 @@ export function MaintenanceFeeForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      console.log('valies',value)
       toast("You submitted the following values:", {
         description: (
           <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
