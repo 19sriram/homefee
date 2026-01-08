@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <main className="flex min-h-screen w-full flex-col justify-center items-center justify-between px-16 bg-white dark:bg-black ">
-        <div className="my-20">
+        <div className="my-10">
         <HeaderMenu/>
         </div>
         

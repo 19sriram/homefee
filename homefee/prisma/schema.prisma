@@ -13,7 +13,20 @@ model User {
 }
 
 model Apartment {
-  id Int @id @default(autoincrement())
-  name String
-  createdAt DateTime @default(now())  
+  id        Int        @id @default(autoincrement())
+  name      String
+  createdAt DateTime   @default(now())
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  serviceName String
+  createdAt   DateTime @default(now())
+  tags        String
+  name        String
+  phoneNumber String
+  status      String
+  location    String
+  rating      Int
+  apartmentId Int
 }

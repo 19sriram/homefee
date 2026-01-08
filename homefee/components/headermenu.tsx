@@ -25,14 +25,11 @@ export function HeaderMenu() {
             Home
           </MenubarItem>
           </Link>
-          <Link href="/about"><MenubarItem>
-            About
+          <Link href="/service"><MenubarItem>
+            Service
           </MenubarItem>
           </Link>
-          <MenubarItem>
-            New Window <MenubarShortcut>⌘N</MenubarShortcut>
-          </MenubarItem>
-          <MenubarItem disabled>New Incognito Window</MenubarItem>
+          
           <MenubarSeparator />
           <MenubarSub>
             <MenubarSubTrigger>Share</MenubarSubTrigger>
@@ -43,9 +40,6 @@ export function HeaderMenu() {
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
-          <MenubarItem>
-            Print... <MenubarShortcut>⌘P</MenubarShortcut>
-          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       {/* <MenubarMenu>
