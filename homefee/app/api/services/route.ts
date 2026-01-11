@@ -14,3 +14,14 @@ data:body  });
   return NextResponse.json(newService, { status: 201 });
 
 }
+
+export async function PATCH(request: NextRequest) {
+  const body = await request.json();
+  const modifiedService = await prisma.service.update({
+    where : {
+      id: Number(body.id)
+    },
+    data: body
+  });
+return NextResponse.json(modifiedService, { status: 202 });
+}

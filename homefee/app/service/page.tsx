@@ -11,7 +11,7 @@ interface IService {
 }
 const fetchData = async () => {
   const res = await fetch("http://localhost:3000/api/services", {
-    cache: "force-cache", 
+    cache: "no-cache", 
   })
   const data = await res.json()
   return { services: data }
